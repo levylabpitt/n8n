@@ -24,6 +24,7 @@ import {
 	GenericHelpers,
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	IExecutionsCurrentSummary,
+	InternalHooksManager,
 	LoadNodesAndCredentials,
 	NodeTypes,
 	Server,
@@ -88,6 +89,8 @@ export class Start extends Command {
 		try {
 			const externalHooks = ExternalHooks();
 			await externalHooks.run('n8n.stop', []);
+
+			await InternalHooksManager.getInstance().onN8nStop();
 
 			setTimeout(() => {
 				// In case that something goes wrong with shutdown we
@@ -154,6 +157,17 @@ export class Start extends Command {
 				// todo remove a few versions after release
 				logger.info(
 					'\nn8n now checks for new versions and security updates. You can turn this off using the environment variable N8N_VERSION_NOTIFICATIONS_ENABLED to "false"\nFor more information, please refer to https://docs.n8n.io/getting-started/installation/advanced/configuration.html\n',
+				);
+
+				logger.info(
+					'\n' +
+						'****************************************************\n' +
+						'*                                                  *\n' +
+						'*   n8n now sends selected, anonymous telemetry.   *\n' +
+						'*      For more details (and how to opt out),      *\n' +
+						'*   https://docs.n8n.io/reference/telemetry.html   *\n' +
+						'*                                                  *\n' +
+						'****************************************************\n',
 				);
 
 				// Start directly with the init of the database to improve startup time
