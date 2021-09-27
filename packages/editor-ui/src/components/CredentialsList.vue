@@ -80,7 +80,7 @@ export default mixins(
 		dialogVisible (newValue) {
 			this.$externalHooks().run('credentialsList.dialogVisibleChanged', { dialogVisible: newValue });
 			if(newValue) {
-				this.$telemetry.track('User opened Credentials panel');
+				this.$telemetry.track('User opened Credentials panel', { workflow_id: this.$store.getters.workflowId });
 			}
 		},
 	},
@@ -98,7 +98,7 @@ export default mixins(
 
 		editCredential (credential: ICredentialsResponse) {
 			this.$store.dispatch('ui/openExisitngCredential', { id: credential.id});
-			this.$telemetry.track('User opened Credential modal', { credential_type: credential.type, source: 'primary_menu', new_credential: false });
+			this.$telemetry.track('User opened Credential modal', { credential_type: credential.type, source: 'primary_menu', new_credential: false, workflow_id: this.$store.getters.workflowId });
 		},
 
 		async deleteCredential (credential: ICredentialsResponse) {

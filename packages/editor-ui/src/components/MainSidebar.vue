@@ -294,7 +294,7 @@ export default mixins(
 		},
 		methods: {
 			trackHelpItemClick (itemType: string) {
-				this.$telemetry.track('User clicked help resource', { type: itemType });
+				this.$telemetry.track('User clicked help resource', { type: itemType, workflow_id: this.$store.getters.workflowId });
 			},
 			toggleCollapse () {
 				this.$store.commit('ui/toggleSidebarMenuCollapse');
@@ -364,7 +364,7 @@ export default mixins(
 						return;
 					}
 
-					this.$telemetry.track('User imported workflow', { source: 'file' });
+					this.$telemetry.track('User imported workflow', { source: 'file', workflow_id: this.$store.getters.workflowId });
 					this.$root.$emit('importWorkflowData', { data: worflowData });
 				};
 

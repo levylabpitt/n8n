@@ -505,7 +505,7 @@ export default mixins(
 			},
 			handleTabClick(tab: ElTabPane) {
 				if(tab.label === 'Settings') {
-					this.$telemetry.track('User viewed node settings', { node_type: this.node ? this.node.type : '' });
+					this.$telemetry.track('User viewed node settings', { node_type: this.node ? this.node.type : '', workflow_id: this.$store.getters.workflowId });
 				}
 			},
 		},

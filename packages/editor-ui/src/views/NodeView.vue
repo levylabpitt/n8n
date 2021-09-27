@@ -343,7 +343,7 @@ export default mixins(
 			openNodeCreator () {
 				this.createNodeActive = true;
 				this.$externalHooks().run('nodeView.createNodeActiveChanged', { source: 'add_node_button' });
-				this.$telemetry.trackNodesPanel('nodeView.createNodeActiveChanged', { source: 'add_node_button' });
+				this.$telemetry.trackNodesPanel('nodeView.createNodeActiveChanged', { source: 'add_node_button', workflow_id: this.$store.getters.workflowId });
 			},
 			async openExecution (executionId: string) {
 				this.resetWorkspace();
@@ -1036,7 +1036,7 @@ export default mixins(
 				}
 				this.stopLoading();
 
-				this.$telemetry.track('User imported workflow', { source: 'url' });
+				this.$telemetry.track('User imported workflow', { source: 'url', workflow_id: this.$store.getters.workflowId });
 
 				return workflowData;
 			},
@@ -1256,7 +1256,7 @@ export default mixins(
 				this.$store.commit('setStateDirty', true);
 
 				this.$externalHooks().run('nodeView.addNodeButton', { nodeTypeName });
-				this.$telemetry.trackNodesPanel('nodeView.addNodeButton', { node_type: nodeTypeName });
+				this.$telemetry.trackNodesPanel('nodeView.addNodeButton', { node_type: nodeTypeName, workflow_id: this.$store.getters.workflowId });
 
 				// Automatically deselect all nodes and select the current one and also active
 				// current node
@@ -1381,7 +1381,7 @@ export default mixins(
 					// Display the node-creator
 					this.createNodeActive = true;
 					this.$externalHooks().run('nodeView.createNodeActiveChanged', { source: 'node_connection_drop' });
-					this.$telemetry.trackNodesPanel('nodeView.createNodeActiveChanged', { source: 'node_connection_drop' });
+					this.$telemetry.trackNodesPanel('nodeView.createNodeActiveChanged', { source: 'node_connection_drop', workflow_id: this.$store.getters.workflowId });
 				});
 
 				this.instance.bind('connection', (info: OnConnectionBindInfo) => {
@@ -1764,7 +1764,7 @@ export default mixins(
 					this.nodeSelectedByName(newNodeData.name, true);
 				});
 
-				this.$telemetry.track('User duplicated node', { node_type: node.type });
+				this.$telemetry.track('User duplicated node', { node_type: node.type, workflow_id: this.$store.getters.workflowId });
 			},
 			removeNode (nodeName: string) {
 				if (this.editAllowedCheck() === false) {

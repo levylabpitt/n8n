@@ -173,6 +173,7 @@ export default Vue.extend({
 				docs_link: this.documentationUrl,
 				credential_type: this.credentialTypeName,
 				source: 'modal',
+				workflow_id: this.$store.getters.workflowId,
 			});
 		},
 	},

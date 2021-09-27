@@ -123,7 +123,7 @@ export const showMessage = mixins(externalHooks).extend({
 				message,
 				errorMessage: error.message,
 			});
-			this.$telemetry.track('Instance FE emitted error', { error_title: title, error_description: message, error_message: error.message });
+			this.$telemetry.track('Instance FE emitted error', { error_title: title, error_description: message, error_message: error.message, workflow_id: this.$store.getters.workflowId });
 		},
 
 		async confirmMessage (message: string, headline: string, type: MessageType | null = 'warning', confirmButtonText = 'OK', cancelButtonText = 'Cancel'): Promise<boolean> {

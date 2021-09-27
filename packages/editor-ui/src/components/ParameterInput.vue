@@ -597,6 +597,7 @@ export default mixins(
 						parameter_name: this.parameter.displayName,
 						parameter_field_type: this.parameter.type,
 						new_expression: !this.isValueExpression,
+						workflow_id: this.$store.getters.workflowId,
 					});	
 				}
 			},

@@ -177,14 +177,14 @@ export default mixins(externalHooks, nodeBase, nodeHelpers, workflowHelpers).ext
 		},
 		disableNode () {
 			this.disableNodes([this.data]);
-			this.$telemetry.track('User set node enabled status', { node_type: this.data.type, is_enabled: !this.data.disabled });
+			this.$telemetry.track('User set node enabled status', { node_type: this.data.type, is_enabled: !this.data.disabled, workflow_id: this.$store.getters.workflowId });
 		},
 		executeNode () {
 			this.$emit('runWorkflow', this.data.name, 'Node.executeNode');
 		},
 		deleteNode () {
 			this.$externalHooks().run('node.deleteNode', { node: this.data});
-			this.$telemetry.track('User deleted node', { node_type: this.nodeType });
+			this.$telemetry.track('User deleted node', { node_type: this.nodeType, workflow_id: this.$store.getters.workflowId });
 
 			Vue.nextTick(() => {
 				// Wait a tick else vue causes problems because the data is gone

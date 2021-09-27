@@ -67,6 +67,7 @@ export default Vue.extend({
 			this.$telemetry.track('User clicked credential modal docs link', {
 				docs_link: this.documentationUrl,
 				source: 'field',
+				workflow_id: this.$store.getters.workflowId,
 			});
 		},
 	},

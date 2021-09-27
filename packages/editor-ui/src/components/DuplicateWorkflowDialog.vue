@@ -123,7 +123,7 @@ export default mixins(showMessage, workflowHelpers).extend({
 				this.closeDialog();
 				this.$telemetry.track('User duplicated workflow', {
 					old_workflow_id: currentWorkflowId,
-					new_workflow_id: this.$store.getters.workflowId,
+					workflow_id: this.$store.getters.workflowId,
 				});
 			}
 
