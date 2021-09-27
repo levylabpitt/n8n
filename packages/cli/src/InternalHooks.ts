@@ -10,13 +10,12 @@ export class InternalHooksClass implements IInternalHooksClass {
 		const info = {
 			version_cli: diagnosticInfo.versionCli,
 			db_type: diagnosticInfo.databaseType,
-			notifications_enabled: diagnosticInfo.notificationsEnabled,
-			disable_production_webhooks_on_main_process:
-				diagnosticInfo.disableProductionWebhooksOnMainProcess,
-			basic_auth_active: diagnosticInfo.basicAuthActive,
+			n8n_version_notifications_enabled: diagnosticInfo.notificationsEnabled,
+			n8n_disable_production_main_process: diagnosticInfo.disableProductionWebhooksOnMainProcess,
+			n8n_basic_auth_active: diagnosticInfo.basicAuthActive,
 			system_info: diagnosticInfo.systemInfo,
 			execution_variables: diagnosticInfo.executionVariables,
-			deployment_type: diagnosticInfo.deploymentType,
+			n8n_deployment_type: diagnosticInfo.deploymentType,
 		};
 		await this.telemetry.identify(info);
 		await this.telemetry.track('Instance started', info);

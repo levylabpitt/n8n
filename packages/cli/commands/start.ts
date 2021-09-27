@@ -154,17 +154,12 @@ export class Start extends Command {
 				LoggerProxy.init(logger);
 				logger.info('Initializing n8n process');
 
-				// todo remove a few versions after release
-				logger.info(
-					'\nn8n now checks for new versions and security updates. You can turn this off using the environment variable N8N_VERSION_NOTIFICATIONS_ENABLED to "false"\nFor more information, please refer to https://docs.n8n.io/getting-started/installation/advanced/configuration.html\n',
-				);
-
 				logger.info(
 					'\n' +
 						'****************************************************\n' +
 						'*                                                  *\n' +
 						'*   n8n now sends selected, anonymous telemetry.   *\n' +
-						'*      For more details (and how to opt out),      *\n' +
+						'*      For more details (and how to opt out):      *\n' +
 						'*   https://docs.n8n.io/reference/telemetry.html   *\n' +
 						'*                                                  *\n' +
 						'****************************************************\n',
