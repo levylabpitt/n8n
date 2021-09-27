@@ -24,6 +24,10 @@ export const showMessage = mixins(externalHooks).extend({
 				stickyNotificationQueue.push(notification);
 			}
 
+			if(messageData.type === 'error') {
+				this.$telemetry.track('Instance FE emitted error', { error_title: messageData.title, error_message: messageData.message, workflow_id: this.$store.getters.workflowId });
+			}
+
 			return notification;
 		},
 
