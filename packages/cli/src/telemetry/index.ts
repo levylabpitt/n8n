@@ -37,7 +37,7 @@ export class Telemetry {
 
 			this.pulseIntervalReference = setInterval(async () => {
 				void this.pulse();
-			}, 1 * 60 * 1000); // every hour
+			}, 6 * 60 * 60 * 1000); // every 6 hours
 		}
 	}
 
