@@ -30,7 +30,10 @@ export function generateNodesGraph(workflow: IWorkflowBase): INodesGraphResult {
 		};
 
 		if (node.type === 'n8n-nodes-base.httpRequest') {
-			const { hostname } = new URL(node.parameters.url as string);
+			let hostname = '';
+			if (node.parameters.url) {
+				({ hostname } = new URL((node.parameters.url as string) ?? ''));
+			}
 			nodeItem.domain = hostname;
 		}
 		nodesGraph.nodes[`${index}`] = nodeItem;
