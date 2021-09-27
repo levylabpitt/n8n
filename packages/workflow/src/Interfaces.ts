@@ -1061,6 +1061,8 @@ export interface INodesGraphNode {
 
 export interface INodeGraphItem {
 	type: string;
+	resource?: string;
+	operation?: string;
 	domain?: string;
 }
 

@@ -35,6 +35,12 @@ export function generateNodesGraph(workflow: IWorkflowBase): INodesGraphResult {
 				({ hostname } = new URL((node.parameters.url as string) ?? ''));
 			}
 			nodeItem.domain = hostname;
+		} else {
+			Object.keys(node.parameters).forEach((parameterName) => {
+				if (parameterName === 'operation' || parameterName === 'resource') {
+					nodeItem[parameterName] = node.parameters[parameterName] as string;
+				}
+			});
 		}
 		nodesGraph.nodes[`${index}`] = nodeItem;
 		nodeNameAndInd[node.name] = index.toString();
