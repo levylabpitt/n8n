@@ -34,8 +34,6 @@ interface IUserNodesPanelSession {
 }
 
 class Telemetry {
-
-	private _telemetry?: any; // tslint:disable-line:no-any
 	
 	private get telemetry() {
 		// @ts-ignore
@@ -138,7 +136,7 @@ class Telemetry {
 
 	private loadTelemetryLibrary(key: string, url: string, options: IDataObject) {
 		// @ts-ignore
-		this._telemetry = (window.rudderanalytics = window.rudderanalytics || []);
+		window.rudderanalytics = window.rudderanalytics || [];
 
 		this.telemetry.methods = ["load", "page", "track", "identify", "alias", "group", "ready", "reset", "getAnonymousId", "setAnonymousId"];
 		this.telemetry.factory = (t: any) => { // tslint:disable-line:no-any
