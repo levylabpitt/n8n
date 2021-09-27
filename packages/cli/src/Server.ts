@@ -2919,14 +2919,3 @@ async function getExecutionsCount(
 	const count = await Db.collections.Execution!.count(countFilter);
 	return { count, estimate: false };
 }
-
-async function generateInstanceId() {
-	const encryptionKey = await UserSettings.getEncryptionKey();
-	const hash = encryptionKey
-		? createHash('sha256')
-				.update(encryptionKey.slice(Math.round(encryptionKey.length / 2)))
-				.digest('hex')
-		: undefined;
-
-	return hash;
-}
