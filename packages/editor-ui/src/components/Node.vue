@@ -184,7 +184,7 @@ export default mixins(externalHooks, nodeBase, nodeHelpers, workflowHelpers).ext
 		},
 		deleteNode () {
 			this.$externalHooks().run('node.deleteNode', { node: this.data});
-			this.$telemetry.track('User deleted node', { node_type: this.nodeType, workflow_id: this.$store.getters.workflowId });
+			this.$telemetry.track('User deleted node', { node_type: this.data.type, workflow_id: this.$store.getters.workflowId });
 
 			Vue.nextTick(() => {
 				// Wait a tick else vue causes problems because the data is gone
