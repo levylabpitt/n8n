@@ -590,8 +590,7 @@ export default mixins(
 					return;
 				}
 
-				const nodeTypeSplit = this.node.type.split('.');
-				if(nodeTypeSplit.length === 2 && nodeTypeSplit[0] === 'n8n-nodes-base') {
+				if((this.node.type as string).startsWith('n8n-nodes-base')) {
 					this.$telemetry.track('User opened Expression Editor', {
 						node_type: this.node.type,
 						parameter_name: this.parameter.displayName,
