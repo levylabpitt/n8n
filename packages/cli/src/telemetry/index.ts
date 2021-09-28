@@ -68,7 +68,11 @@ export class Telemetry {
 				prod_success_count: 0,
 			};
 
-			if (properties.success === false) {
+			if (
+				properties.success === false &&
+				properties.error_node_type &&
+				properties.error_node_type.startsWith('n8n-nodes-base')
+			) {
 				// errored exec
 				await this.track('Workflow execution errored', properties);
 
