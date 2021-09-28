@@ -99,7 +99,6 @@ export class Telemetry {
 		if (this.client) {
 			this.client.identify({
 				userId: this.instanceId,
-				anonymousId: '000000000000',
 				traits: {
 					...traits,
 					instanceId: this.instanceId,
@@ -113,7 +112,6 @@ export class Telemetry {
 			this.client.track({
 				userId: this.instanceId,
 				event: eventName,
-				anonymousId: '000000000000',
 				properties,
 			});
 		}
