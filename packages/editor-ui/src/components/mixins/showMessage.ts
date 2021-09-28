@@ -12,7 +12,7 @@ let stickyNotificationQueue: ElNotificationComponent[] = [];
 
 export const showMessage = mixins(externalHooks).extend({
 	methods: {
-		$showMessage(messageData: ElNotificationOptions) {
+		$showMessage(messageData: ElNotificationOptions, track = true) {
 			messageData.dangerouslyUseHTMLString = true;
 			if (messageData.position === undefined) {
 				messageData.position = 'bottom-right';
@@ -24,7 +24,7 @@ export const showMessage = mixins(externalHooks).extend({
 				stickyNotificationQueue.push(notification);
 			}
 
-			if(messageData.type === 'error') {
+			if(messageData.type === 'error' && track) {
 				this.$telemetry.track('Instance FE emitted error', { error_title: messageData.title, error_message: messageData.message, workflow_id: this.$store.getters.workflowId });
 			}
 
