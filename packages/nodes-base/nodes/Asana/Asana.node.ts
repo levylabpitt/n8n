@@ -1,6 +1,4 @@
-import {
-	IExecuteFunctions,
-} from 'n8n-core';
+import {IExecuteFunctions,} from 'n8n-core';
 
 import {
 	IDataObject,
@@ -13,18 +11,11 @@ import {
 	NodeOperationError,
 } from 'n8n-workflow';
 
-import {
-	asanaApiRequest,
-	asanaApiRequestAllItems,
-	getTaskFields,
-	getWorkspaces,
-} from './GenericFunctions';
+import {asanaApiRequest, asanaApiRequestAllItems, getTaskFields, getWorkspaces,} from './GenericFunctions';
 
 import * as moment from 'moment-timezone';
 
-import {
-	snakeCase,
-} from 'change-case';
+import {snakeCase,} from 'change-case';
 
 export class Asana implements INodeType {
 	description: INodeTypeDescription = {
@@ -1484,6 +1475,11 @@ export class Asana implements INodeType {
 				},
 				options: [
 					{
+						name: 'Create',
+						value: 'create',
+						description: 'Create a new project',
+					},
+					{
 						name: 'Get',
 						value: 'get',
 						description: 'Get a project',
@@ -1498,6 +1494,131 @@ export class Asana implements INodeType {
 				description: 'The operation to perform.',
 			},
 
+			// ----------------------------------
+			//         project:create
+			// ----------------------------------
+			{
+				displayName: 'Name',
+				name: 'name',
+				type: 'string',
+				default: '',
+				required: true,
+				displayOptions: {
+					show: {
+						operation: [
+							'create',
+						],
+						resource: [
+							'project',
+						],
+					},
+				},
+				description: 'The name of the project to create',
+			},
+			{
+				displayName: 'Workspace',
+				name: 'workspace',
+				type: 'options',
+				typeOptions: {
+					loadOptionsMethod: 'getWorkspaces',
+				},
+				default: '',
+				required: true,
+				displayOptions: {
+					show: {
+						operation: [
+							'create',
+						],
+						resource: [
+							'project',
+						],
+					},
+				},
+				description: 'The workspace to create the project in',
+			},
+			{
+				displayName: 'Teams',
+				name: 'team',
+				type: 'options',
+				typeOptions: {
+					loadOptionsDependsOn: [
+						'workspace',
+					],
+					loadOptionsMethod: 'getTeams',
+				},
+				default: '',
+				required: true,
+				description: 'The new name of the task',
+				displayOptions: {
+					show: {
+						resource: [
+							'project',
+						],
+						operation: [
+							'create',
+						],
+					},
+				},
+			},
+			{
+				displayName: 'Public',
+				name: 'public',
+				type: 'boolean',
+				default: '',
+				required: true,
+				displayOptions: {
+					show: {
+						operation: [
+							'create',
+						],
+						resource: [
+							'project',
+						],
+					},
+				},
+				description: 'Should this project be public to everyone in the organization?',
+			},
+			{
+				displayName: 'Additional Fields',
+				name: 'additionalFields',
+				type: 'collection',
+				displayOptions: {
+					show: {
+						resource: [
+							'project',
+						],
+						operation: [
+							'create',
+						],
+					},
+				},
+				default: {},
+				description: 'Other properties to set',
+				placeholder: 'Add Property',
+				options: [
+					{
+						displayName: 'Archived',
+						name: 'archived',
+						type: 'boolean',
+						default: false,
+						description: 'Only return projects whose archived field takes on the value of this parameter.',
+					},
+					{
+						displayName: 'Color',
+						name: 'color',
+						type: 'string',
+						default: '',
+						description: 'The color of the project',
+					},
+					{
+						displayName: 'Notes',
+						name: 'notes',
+						type: 'string',
+						default: '',
+						description: 'Basic description or notes for the project.',
+					},
+				],
+			},
 			// ----------------------------------
 			//         project:get
 			// ----------------------------------
@@ -2126,7 +2247,6 @@ export class Asana implements INodeType {
 				}
 				if (resource === 'taskProject') {
 					if (operation === 'add') {
-
 						// ----------------------------------
 						//         taskProject:add
 						// ----------------------------------
@@ -2197,6 +2317,36 @@ export class Asana implements INodeType {
 					}
 				}
 				if (resource === 'project') {
+					if (operation === 'add') {
+						// ----------------------------------
+						//         project:create
+						// ----------------------------------
+						const additionalFields = this.getNodeParameter('additionalFields', i) as IDataObject;
+
+						requestMethod = 'POST';
+						endpoint = `/projects`;
+
+						// required parameters
+						body.name = this.getNodeParameter('name', i) as string;
+						body.workspace = this.getNodeParameter('workspace', i) as string;
+						body.public = this.getNodeParameter('public', i) as boolean;
+						// optional parameters
+						if (additionalFields.team) {
+							qs.team = additionalFields.team;
+						}
+						if (additionalFields.archived) {
+							qs.archived = additionalFields.archived as boolean;
+						}
+						if (additionalFields.notes) {
+							qs.notes = additionalFields.notes;
+						}
+						if (additionalFields.color) {
+							qs.color = additionalFields.color;
+						}
+
+						responseData = await asanaApiRequest.call(this, requestMethod, endpoint, body, qs);
+						responseData = responseData.data;
+					}
 
 					if (operation === 'get') {
 						// ----------------------------------
